@@ -1,0 +1,22 @@
+{
+  "name": "knights-tour",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "jest",
+    "tsc": "tsc"
+  },
+  "author": "Drew Wyatt <drew.j.wyatt@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "@types/jest": "^29.5.10",
+    "@types/node": "^20.10.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.0",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}
