@@ -13,7 +13,7 @@ import type { FixedLengthArray, IntRange, Tagged } from 'type-fest'
  */
 
 export type Board = Tagged<FixedLengthArray<number, 64>, 'board'>
-export type Space = Tagged<IntRange<0, 64>, 'space'>
+export type Space = IntRange<0, 64>
 
 const meta = {
   width: 8,
@@ -35,7 +35,8 @@ const isValidShift = (start: Space, shift: number) => {
 }
 
 export const unvisited = -1
-export const isUnvisited = (board: Board, space: Space) => board[space] === unvisited
+export const isUnvisited = (board: Board, space: Space | null) =>
+  typeof space === 'number' && board[space] === unvisited
 const isSpace = (index: number): index is Space => index >= 0 && index <= 63
 
 export const newBoard = (): Board => {
@@ -46,8 +47,8 @@ export const newBoard = (): Board => {
 
 export const translate = (
   start: Space,
-  rankDelta: number,
   fileDelta: number,
+  rankDelta: number,
 ): Space | null => {
   if (!isValidShift(start, fileDelta)) return null
   const delta = rankDelta * meta.width + fileDelta
