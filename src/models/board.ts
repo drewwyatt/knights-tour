@@ -15,24 +15,43 @@ import type { FixedLengthArray, IntRange, Tagged } from 'type-fest'
 export type Board = Tagged<FixedLengthArray<number, 64>, 'board'>
 export type Space = Tagged<IntRange<0, 64>, 'space'>
 
+const meta = {
+  width: 8,
+  height: 8,
+  size: 8 * 8,
+  rankBounds: {
+    min: _.range(0, 8 * 8, 8),
+    max: _.range(7, 8 * 8, 8),
+  },
+}
+
+const isValidShift = (start: Space, shift: number) => {
+  const rankIndex = Math.floor(start / meta.width)
+  if (shift > 0) {
+    return meta.rankBounds.max[rankIndex] >= start + shift
+  }
+
+  return meta.rankBounds.min[rankIndex] <= start + shift
+}
+
 export const unvisited = -1
 export const isUnvisited = (board: Board, space: Space) => board[space] === unvisited
 const isSpace = (index: number): index is Space => index >= 0 && index <= 63
 
 export const newBoard = (): Board => {
-  const board = _.range(8 * 8).map(_.constant(unvisited))
+  const board = _.range(meta.size).map(_.constant(unvisited))
   board[0] = 0
   return board as unknown as Board
 }
 
-// 20 => 5 | -2, 1
 export const translate = (
   start: Space,
   rankDelta: number,
   fileDelta: number,
 ): Space | null => {
-  const delta = rankDelta * 8 + fileDelta
+  if (!isValidShift(start, fileDelta)) return null
+  const delta = rankDelta * meta.width + fileDelta
   const space = start + delta
 
-  return isSpace(space) ? space : null // TODO: this isn't enough!
+  return isSpace(space) ? space : null
 }
