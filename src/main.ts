@@ -5,23 +5,23 @@ let moveCount = 0
 const board = newBoard()
 board[position] = moveCount
 
-const activity = new Activity('main', { position, moveCount })
+const indicator = new Activity('main', { position, moveCount })
 
 try {
   while (!isComplete(board)) {
-    activity.update({ position, moveCount })
+    indicator.update({ position, moveCount })
     const move = getNextMove(board, position)
     board[move] = ++moveCount
     position = move
   }
 
-  activity.succeed()
+  indicator.succeed()
   console.log(prettyPrint(board))
 } catch (err: unknown) {
   if (err instanceof Error) {
-    activity.fail(err.message)
+    indicator.fail(err.message)
   } else {
-    activity.fail()
+    indicator.fail()
   }
 
   console.error(err)
