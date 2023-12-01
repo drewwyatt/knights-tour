@@ -41,7 +41,6 @@ const isSpace = (index: number): index is Space => index >= 0 && index <= 63
 
 export const newBoard = (): Board => {
   const board = _.range(meta.size).map(_.constant(unvisited))
-  board[0] = 0
   return board as unknown as Board
 }
 
@@ -56,3 +55,11 @@ export const translate = (
 
   return isSpace(space) ? space : null
 }
+
+export const isComplete = (board: Board) => !board.some(space => space === unvisited)
+
+export const prettyPrint = (board: Board): string =>
+  _.chunk(
+    board.map(label => String(label).padStart(2, ' ')),
+    8,
+  ).join('\n')

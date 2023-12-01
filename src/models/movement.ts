@@ -25,7 +25,8 @@ export const getPossibleMoves = (board: Board, current: Space) => {
   ].filter(_.isNumber) as Space[]
 }
 
-export const getNextMove = (board: Board, current: Space) => {
+export const getNextMove = (_board: Board, current: Space) => {
+  const board = [..._board] as unknown as Board
   const allMoves = getPossibleMoves(board, current)
   board[current] = 99 // mark current space as visited
 
@@ -45,5 +46,5 @@ export const getNextMove = (board: Board, current: Space) => {
   )
 
   invariant(fewestMoves.space > -1, `No moves found for space ${current}`)
-  return fewestMoves.space
+  return fewestMoves.space as Space
 }
