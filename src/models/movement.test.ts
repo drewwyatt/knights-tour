@@ -1,5 +1,5 @@
 import { newBoard } from './board'
-import { getPossibleMoves } from './movement'
+import { getNextMove, getPossibleMoves } from './movement'
 
 describe('getPossibleMoves', () => {
   /**
@@ -37,5 +37,29 @@ describe('getPossibleMoves', () => {
     board[46] = 3 // ♞
 
     expect(getPossibleMoves(board, 46)).toEqual([31, 63, 52, 29])
+  })
+})
+
+describe.only('getNextMove', () => {
+  /**
+   * 👍 = availabe
+   * 🛑 = visited
+   * ✅ = fewest moves
+   *  0  1  2  3  4  5  6  7
+   *  8  9 10 11 12 13 14 15
+   * 16 17 18 19 20 21 22 23
+   * 24 25 26 27 28 👍 30 👍
+   * 32 33 34 35 🛑 37 38 39
+   * 40 41 42 43 44 45 ♞  47
+   * 48 49 50 51 👍 53 54 55
+   * 56 57 58 59 60 🛑 62 ✅
+   */
+  test('returns a space with the fewest possible moves', () => {
+    const board = newBoard()
+    board[36] = 1
+    board[61] = 2
+    board[46] = 3 // ♞
+
+    expect(getNextMove(board, 46)).toEqual(63)
   })
 })
